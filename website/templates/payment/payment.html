@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mushify-Paymentgateway</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+</head>
+<style>
+    body{
+        display: grid;
+        place-items: center;
+        place-content: center;
+    }
+    th, td {
+    border: 2px solid darkgray;
+    padding: 10px;
+    text-align: left;
+  }
+
+</style>
+<body class="mt-5 bg-dark p-5" style="display: grid;">
+
+
+    <div class="p-5 bg-white rounded-3 d-flex align-items-center justify-content-center flex-column">
+        {% if discount_amount %}
+            <h3 class="btn btn-outline-info bg-white">Discount Applied <i class="fas fa-circle fa-check"></i></h3>
+        {% endif %}
+        <div class="proceedtopay text-warning mt-2 fw-semibold p-5 fs-4">
+            Are you Sure you want to take {{months}} month subscription?
+            
+            <div class="checkpay d-flex flex-column gap-2">
+                
+                <div class="yesorno d-flex align-items-center mt-2">
+                 Procced to Pay ${{amount}}
+                 
+                 
+                </div>
+                <button class="btn btn-warning" onclick="showPaymentContainer()">Proceed To Pay</button>
+                <i class="fa-regular fa-circle-xmark btn btn-warning" style="font-size: large;" id="goBackButton">Cancel</i>
+                
+
+            </div>
+        </div>
+        <div class="btn btn-outline-success" style="opacity: 0; transition: opacity 0.5s; background-color: rgba(26, 25, 25, 0.668);" id="payment-container">
+            
+            <form action="/user/dashboard/payment" method="POST" class="p-2">
+                <script
+                    src="https://checkout.razorpay.com/v1/checkout.js"
+                    data-key="rzp_test_VIwxy2W66Kp2lb"
+                    data-amount="{{payment['amount']}}"
+                    data-name="{{current_user.user_name}}"
+                    data-description="Purchase Description"
+                    data-image="vk.jpg"
+                    data-netbanking="true"
+                    data-description=""
+                    data-prefill.name=""
+                    data-prefill.email=""
+                    data-prefill.contact=""
+                    data-notes.shopping_order_id="{{payment['shopping_order_id']}}">
+                </script>
+                <input type="hidden" name="shopping_order_id" value="{{payment['shopping_order_id']}}" class="btn btn-secondary">
+            </form>
+            <!-- <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_MvvsmDNmgVdGGD" async> </script> </form> -->
+    
+        </div>
+
+    </div>
+    <div class="disclaimer mt-2 p-5">
+        <h3 class="text-danger">Note this is app is in test mode so you do not need to provide real card details.</h2>
+        <p class="text-secondary">Use the below details</p>
+        <table class="text-warning" style="border: 2px solid darkgray; border-collapse: collapse;">
+            <thead class="text-white" style="border: 2px solid darkgray;">
+                <tr>
+                    <th>Card Network</th>
+                    <th>Card Number</th>
+                    <th>Cvv</th>
+                    <th>Expiry Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mastercard</td>
+                    <td>5267 3181 8797 5449</td>
+                    <td>Random CVV</td>
+                    <td>Any future date</td>
+                </tr>
+                <tr>
+                    <td>Visa</td>
+                    <td>4111 1111 1111 1111</td>
+                    <td>Random CVV</td>
+                    <td>Any future date</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script>
+    let paymentsure = document.getElementsByClassName('checkpay')
+    let showing=false
+    function showPaymentContainer() {
+        if(showing===false){
+            let paymentContainer = document.getElementById("payment-container");
+            paymentContainer.style.display = "block";
+            paymentContainer.style.transition = "0.5s ease-in-out";
+            paymentContainer.style.opacity = "1";
+            showing=true
+            console.log("reached")
+
+        }
+        else{
+            let paymentContainer = document.getElementById("payment-container");
+            paymentContainer.style.display = "block";
+            paymentContainer.style.transition = "0.5s ease-in-out";
+            paymentContainer.style.opacity = "0";
+            showing=false
+
+        }
+    
+}
+let goBackButton = document.getElementById("goBackButton");
+goBackButton.addEventListener("click", function(){
+    window.history.back()
+})
+</script>
+    
+</body>
+</html>

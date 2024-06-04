@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user.creator_name}} Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        /* Style for the thumb (the draggable part of the scroll bar) */
+        ::-webkit-scrollbar-thumb {
+            background: #3d3f3f;
+            border: .1px solid black;
+            border-radius: 5px;
+        }
+
+        /* Style for the track (the area behind the thumb) */
+        ::-webkit-scrollbar{  
+          height: 0;
+          width: 0;
+        }
+        @media screen  and (min-width:500px){
+         .media1{
+          font-size: 1px !important;
+         }
+         .media1 li{
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+         }
+          
+          
+        }
+        .btn1:hover{
+          font-size: large;
+          transition: 0.2s;
+        }
+        .btn2:hover{
+          font-size: larger;
+          transition: 0.2s;
+
+        }
+        .btn3:hover{
+          font-size: larger;
+          transition: 0.2s;
+        }
+        .desc-div{
+          display: flex;
+            padding: 1rem;
+            font-size: x-small;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .descdiv{
+          width: 10rem;
+          display: none;
+          z-index: 1;
+          position: absolute;
+          overflow-y: auto;
+          font-size: large;
+          font-weight: bold;
+          background-color: rgba(0, 0, 0, 0.815);
+        }
+          .desc-div:hover .descdiv{
+            color: white;
+            display: flex;
+            width: 10rem;
+            padding: 1rem;
+            font-size: small;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0.8;
+
+
+
+
+          }
+
+
+
+
+    </style>
+</head>
+<body class="bg-dark text-white" style="font-size: vw;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100" >
+        <div class="container-fluid bg-dark">
+          <h4 type="button" class="mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Mushify {% if current_user.is_creator %} <i class="fa-regular fa-star" style="color: #4dfed2;">{% endif %}</i></h4>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 bg-dark">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/logout">LogOut</a></li>
+              {% if current_user.is_creator %}
+              <li class="nav-item"><a class="nav-link" href="/creator/dashboard">Creator-Dashboard</a></li>
+              {% else %}
+              <li class="nav-item"><a class="nav-link" href="/user/dashboard">User-Dashboard</a></li>
+              {% endif %}
+              <li class="nav-item"><a class="nav-link" href="/discover-songs">Discover Songs</a></li>             
+                
+                
+              <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li> -->
+              <!-- <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+    </nav>
+        <div class="d-flex flex-column justify-content-center align-items-center m-5">
+          {% if not user.is_creator %}<p class="fs-4 btn btn-danger">User is not a creator</p>{% endif %}
+          {% if current_user.id==user.id %} 
+          <div>
+            <form action="/creator/deletecreator/{{current_user.id}}" method="post">
+              <button type="submit" class="btn btn-danger" style="background-color: transparent;">Delete Account</button>
+            </form>
+          </div> 
+          {% endif %}
+          
+
+          <div  class="d-flex justify-content-center align-items-center mt-5 border border-secondary p-5" style="box-shadow: 1rem 0.5rem 3rem black;">
+            <div class="backbutton d-flex justify-content-start" style="position: absolute; right: 60rem; bottom: 32rem; z-index: 2; font-size: larger;">
+              <button id="goBackButton" class="rounded-2 fs-6 border bg-dark"><i class="fa-solid fa-backward-step" style="color: #f00a75;"></i></button>
+  
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <!-- <p>{% if user.is_authenticated %} <i style="color: #0ad9f0af;">online</i>{% else %}<i style="color: #f00a47af;">offline</i>{% endif   %}</p> -->
+            <p id="user-online-status">{{ "Online" if user.is_online else "Offline" }}</p>
+            {% if user.profile_image_path %}
+              <img src="{{ user.profile_image_path.split('/website')[1] }}" alt="" class="border border-white" style="width: 200px; height: 200px; box-shadow: 10px 10px 20px rgb(21, 21, 21);">
+              {% else %}
+              <i class="fa-solid fa-user fs-2" style="color: #ffffff;"></i>
+            {% endif %}
+          </div>
+
+          </div>
+          <div class="follower-following-detail d-flex gap-3 mt-2 p-2 align-items-center justify-content-around rounded-3" style="overflow-x: auto; width: 300px; box-shadow: black 1rem 1rem 2rem;">
+            <form action="/follow_artist/{{ user.id }}" method="POST" class="btn1 ms-5">
+              {% if not user.is_verified %}
+              <i class="fa-solid fa-font-awesome fs-4" style="color: #3d3f3f; font-size: larger;"></i>
+              <p style="font-size: x-small; color: #f1375f;" class="mt-2">Unverified</p>
+              {% else %}
+              <i class="fa-solid fa-font-awesome" style="color: aqua; font-size: larger;"></i>
+              {% endif %}
+              {% if user==current_user or current_user.is_admin %}
+              {% else %}
+                {% if not user in current_user.followed_artists %}
+                    <button type="submit" class="btn btn-primary btn1">Follow</button>
+                {% else %}
+                    <button type="submit" class="btn btn-primary btn1">Following</button>
+                {% endif %}
+              {% endif %}
+          </form>
+            <div class="following d-flex flex-column align-items-center justify-content-center btn2 fs-6">
+              <p class="text-decoration-none">Following</p>
+              <p class="">{{following_count}}</p>
+
+            </div>
+            <div class="followers d-flex flex-column align-items-center justify-content-center btn3 fs-6">
+              <p class="text-decoration-none">Followers</p>
+              <p class="">{{followers_count}}</p>
+
+            </div>
+            <div class="followers d-flex flex-column align-items-center justify-content-center btn3 fs-6">
+              <p class="text-decoration-none">Uploads</p>
+              <p class="">{{total_creations}}</p>
+
+            </div>
+
+          </div>
+          <button class="btn btn-outline-info bg-dark text-white mt-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Songs Created</button>
+
+          
+          <div class="d-flex flex-column align-items-center justify-content-start m-5 p-5 rounded border border-white" style="background-color: #1e1e1e; box-shadow: 10px 5px 3rem black;">
+              <li class="d-flex align-items-center justify-content-center gap-2 flex-wrap p-2 rounded-2" style="box-shadow: 2px 2px 0.5rem black;">
+                  <h7 class="fs-4 border-bottom">Name:</h7>
+                  <div class="fs-4 d-flex flex-column">{{user.creator_name}}</div>
+              </li>
+              <div class="d-flex align-items-center justify-content-center gap-2 mt-3 d-flex p-2 rounded-2" style="box-shadow: 2px 2px 0.5rem black;">
+                <h8 class="fs-4 border-bottom w-100">About me:</h8>
+                  <div class="fs-4 mt-2 rounded d-flex desc-div">
+                    
+                    <i class="fa-solid fa-regular fa-eye fa-beat"></i>
+                     <div class="descdiv" style="">
+                        {{user.description}}
+                     </div>
+                     
+                  </div>
+                </div>
+              <li class="d-flex flex-row align-items-center justify-content-center gap-2 flex-wrap p-2 rounded-2" style="box-shadow: 2px 2px 0.5rem black;">
+                  
+                  <h7 class="fs-4 border-bottom">Wish Me On:</h7>
+                  {% if user.dob.day and month %}
+                  <p class="fs-4 mt-3">{{month}} {{user.dob.day}}</p>
+                  {% else %}
+                  <p class="fs-4 mt-3">Not Set Yet.</p>
+                  {% endif %}
+
+              </li>
+              <li class="d-flex align-items-center justify-content-center gap-2 container-fluid flex-wrap p-2 rounded-2" style="box-shadow: 2px 2px 0.5rem black;">
+                  <h7 class=" fs-4 border-bottom">Contact:</h7>
+                  <p class="mt-2 btn btn-outline-success" id="emailuser" value="{{user.email}}">{{user.contact_info}} | {{user.email}}</p>
+              </li>
+              <li class="d-flex align-items-center justify-content-center gap-2 flex-wrap mt-2 p-2 rounded-2" style="box-shadow: 2px 2px 0.5rem black;">
+                {% if user.social_media_links %}
+                  <h7 class="fs-3 border-bottom">{{user.social_media_links.split(':')[0].capitalize()}}:</h7>
+                  <a href="https:{{user.social_media_links.split(':')[2]}}" class="btn btn-primary">Connect here...</a>
+                {% else %}
+                  <h6>Social Media Link:</h6>
+                  <h6>No Links Given</h6>
+                {% endif %}
+              </li>
+            </div>
+            </div>
+            <div class="offcanvas offcanvas-start bg-dark" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Songs Created</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body bg-dark">
+                <div class="d-flex flex-column" style="box-shadow: black 1rem 1rem 1.5rem;">
+                  {% if songs %}
+                  <h2 class="mt-5 btn btn-primary bg-dark" onclick="changestyle()">Songs Created</h2>
+                  
+                  <div class="d-flex flex-column mb-2 rounded-5 gap-3" style="overflow-x: auto; background:linear-gradient(to top, rgb(20, 19, 20) 50%,rrgba(40, 38, 39, 0.209));">
+                  {% for song in songs %}
+                      <div class="bg-dark song d-flex gap-3 p-2 d-flex songdiv" style="box-shadow: black 2rem 1rem 1.5rem; border: 2px solid rgb(74, 74, 74); border-radius: 2rem; overflow-x: auto;">
+                          <div class="">
+                            <a href="{{ url_for('auth.fullscreen_view', song_id=song.id) }}"><img src="{{ song.cover_image_path.split('/website')[1] }}" alt="" srcset="" class="image-fluid card-img-top border rounded-5" style="width: 80px; height: 80px; box-shadow: black 1rem 0rem 2rem;"><i class="fas fa-duotone fa-circle-play fa-fade fs-3" style="position:relative; color: #f1375f;"></i></a>
+                          </div>
+
+
+                          <div class="align-items-center justify-content-around mt-2 gap-5" style="display: flex; text-wrap: wrap;">
+                            <h5 style="font-size: medium;">{{song.name}}</h5>
+                            <p class="d-block mt-2 fw-semibold"> Genre: {{ song.genre }}</p>
+                            <p class="d-block mt-2 fw-semibold" style="text-wrap: nowrap; color: rgb(255, 255, 255);">Likes: {{ song.likes }}</p>
+                            <p class="d-block mt-2 fw-semibold" style="text-wrap: nowrap; color: rgb(255, 255, 255);">{{ song.artist }}</p>
+                           </div>
+                            
+                          </div>
+                          
+                          
+                    
+          
+          
+                      
+                  {% endfor %}
+          
+          
+                 
+              
+          
+                  </div>
+                {% else %}
+                  <div class="nosongfound p-2" style="display: flex; align-items: center; justify-content: center;"><h2 class="btn btn-secondary">No songs Created</h2></div>
+                {% endif %}
+               </div>
+              </div>
+
+
+<div class="" style="color: rgb(20, 234, 184);"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<script>
+  function changestyle() {
+    var songdiv = document.getElementsByClassName('songdiv');
+    console.log(songdiv);
+
+    // Define an array of colors
+    const colors = ["rgb(234, 20, 102)", "rgb(20, 234, 184)", "rgb(102, 20, 234)"];
+
+    // Iterate over songdiv elements and toggle between the colors
+    [...songdiv].forEach((element, index) => {
+        element.classList.remove('bg-dark');
+        const currentColor = element.style.backgroundColor || "rgb(234, 20, 102)";
+        const nextColor = colors[(colors.indexOf(currentColor) + 1) % colors.length];
+        element.style.backgroundColor = nextColor;
+    });
+}
+
+</script>
+<script>
+  document.getElementById('emailuser').addEventListener('click' , function(){
+    let email = this.value;
+    window.location.href = 'mailto:' + email;
+  });
+</script>
+<script>
+  goBackButton=document.getElementById("goBackButton")
+   goBackButton.addEventListener("click", function() {
+          window.history.back();
+        });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+const socket = io.connect('https://e95c-2405-201-8013-881f-8941-6f9f-e6d5-1a2c.ngrok-free.app');
+console.log(socket)
+socket.on('connect', function () {
+  console.log('Socket.IO connected!');
+});
+
+// Listen for the update_user_status event
+socket.on('update_user_status', function (data) {
+  console.log(data)
+  const userID= JSON.parse('{{user.id|tojson|safe}}');
+  if (data.user_id === userID) {
+        console.log("data recieved")
+        const userElement = document.getElementById('user-online-status');
+        if (userElement) {
+            userElement.innerHTML = data.is_online ? 'Online' : 'Offline';
+        }
+    }
+});
+</script>
+</body>
+</html>

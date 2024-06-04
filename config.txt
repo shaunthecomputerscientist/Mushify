@@ -1,0 +1,4 @@
+[EMAIL]
+mail_password = ""
+secret_key = 
+salt = 

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mushify-Discover</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <style>
+     
+        body{
+        
+      }
+      .song-card{
+        /* -webkit-filter: blur(3px); 
+        -moz-filter: blur(3px); 
+        -o-filter: blur(3px); 
+        -ms-filter: blur(3px); 
+        filter: blur(3px); */
+        
+      }
+      .overlay{
+        -webkit-filter: blur(3px); 
+        -moz-filter: blur(3px); 
+        -o-filter: blur(3px); 
+        -ms-filter: blur(3px); 
+        filter: blur(3px);
+      }
+      .song-card:hover{
+        background:linear-gradient(to bottom, rgb(35, 35, 35), rgb(68, 67, 67));
+        
+      }
+      .song-image{
+        filter:blur(0px);
+      }
+      .hoverable-div{
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        width: 20%;
+      }
+      .hover-content{
+        position: absolute;
+        display: none;
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0.815);
+      }
+      .hoverable-div:hover .hover-content{
+        display: flex;
+        width: 20rem;
+        padding: 2rem;
+        font-size: small;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        opacity: 1;
+        z-index: 2;
+        
+      }
+      ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+        .addstyle{
+            background-position:center; 
+            background-size: cover; 
+            background-repeat:no-repeat;
+            background:linear-gradient(to bottom, rgb(43, 42, 42), rgb(28, 28, 27)) !important;
+      }
+      .playlishover{
+        background-color: transparent;
+      }
+      .playlishover:hover{
+        background-color: #252726;
+        transition: 1s linear;
+      }
+      /* .successdiv{
+        display: none;
+      }
+      .errordiv{
+        display: none;
+      } */
+    </style>
+</head>
+<body class="text-white w-100"  style="font-size: 1vw;background: radial-gradient(circle, rgb(51, 46, 61) 2%, rgb(45, 43, 54) 62%, rgb(28, 28, 30) 87%);">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+        <div class="container-fluid bg-dark">
+          <a class="navbar-brand" href="#">Mushify {% if user.is_creator %} <i class="fa-regular fa-star" style="color: #4dfed2;"></i> {% endif %}</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 bg-dark fs-6">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              
+              <li class="nav-item"><a class="nav-link" href="/logout">LogOut</a></li> 
+              {% if user.is_creator %}   
+                      <li class="nav-item"><a class="nav-link" href="/creator/dashboard">Creator-Dashboard</a></li>
+              {% else %}
+                      <li class="nav-item"><a class="nav-link" href="/user/dashboard">User Dashboard</a></li>
+              {% endif %}
+              <li class="nav-item"><a class="nav-link" href="/user/discovercreators">Discover Creators</a></li>
+
+                
+                
+              <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li> -->
+              <!-- <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li> -->
+            </ul>
+            <form class="" id="searchbar1" method="POST" action="\discover-songs">
+              <input class="form-control me-2" type="search" placeholder="by genre, song, artist" name="search-query" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search...</button>
+            </form>
+          </div>
+        </div>
+    </nav>
+
+
+    <!-- <div class="flashboard">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+          {% if category=='error' %}
+          <div class="alert alert-danger alert-dismissable fade show" role="alert"> 
+              {{ message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none'">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% else %}
+            <div class="alert alert-success alert-dismissable fade show" role="alert">
+              {{ message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none'">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    
+    </div> -->
+
+    <div class="alert alert-dismissable fade w-100" role="alert" id="successdiv">
+      <p id="successflash" class="text-black fs-6 d-inline">
+
+      </p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.className='alert alert-dismissable fade w-100'; ">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    
+  </div> 
+    <!-- <div class="alert alert-dismissable fade w-100" role="alert" id="errordiv">
+        <p id="errorflash" class="text-black fs-6"></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none' ">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div> -->
+
+    <div class="align-items-center justify-content-center mb-5" style="display: none;" id="searchbar2">
+      <form class="d-flex" method="POST" action="\discover-songs" style="width: 90%;">
+        <input class="form-control me-2 bg-dark btn btn-outline-info text-white" type="search" placeholder="by genre, song, artist name, creator name" name="search-query" aria-label="Search">
+        <button class="btn btn-outline-info" type="submit">Search</button>
+      </form>
+    </div>
+    <div class="body-container d-flex flex-column align-items-center justify-content-center w-100">
+      <div class="changestyles d-flex align-items-center justify-content-center gap-2">
+        <h1 class="text-white mt-3 mb-2 fw-semibold bg-dark btn btn-primary" onclick="changedivstyle()">Discover Songs</h1>
+        <i class="fa-solid fa-grip-vertical btn btn-primary bg-dark" onclick="verticalgrid()"></i>
+        <i class="fa-solid fa-grip-horizontal btn btn-primary bg-dark" onclick="horizontalgrid()"></i>
+      </div>        
+        <div {% if songs %} class="song-container d-flex align-items-center justify-content-start p-5 gap-5 w-100" style="overflow-y: auto; position ;" {% else %} class="song-container w-100 d-flex align-items-center justify-content-center flex-wrap p-5 gap-2" {% endif %}>
+          
+          {% if songs %}
+            {% for song in songs %}
+                <div class="song-card d-flex align-items-center justify-content-center flex-wrap border-secondary rounded-5 bg-dark song p-5" style="width: 20rem; height: 25rem; position: relative; background-position: center; background-size: cover; box-shadow: black 2rem 1rem 1.5rem;background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0.401), rgba(0, 0, 0, 0.5)), url({{ song.cover_image_path.split('/website')[1] }}); ">
+                  <div class="p-2 song-image d-flex flex-column align-items-center justify-content-center" style="position: ;">
+                        
+
+
+
+                    <a class="" href="{{ url_for('auth.fullscreen_view', song_id=song.id) }}" style="position: absolute; left: 0rem; top: 0rem;">
+                      <div class="" style="font-size: 2rem; color: rgb(159, 159, 159);">
+                        <i class="fas fa-duotone fa-circle-play fa-bounce"></i>
+                      </div>
+                    </a>
+                      <img src="{{ song.cover_image_path.split('/website')[1] }}" class="card-img-top border border-white image-fluid rounded-2" alt="{{song.name}}" style="width: 7rem; height: 7rem; box-shadow: black 1rem 0.8rem 3rem;">
+                    
+                      
+                      <div class=" fw-bold border-bottom w-100 d-flex align-items-center justify-content-center text-break mt-2" style="font-size: small; text-align: center;">{{song.name}}</div>
+                     
+                     
+                      <!-- <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="audio">
+                          <audio controls loop class="m-2" style="width: 200px;">
+                            <source src="{{ song.song_file_path.split('/website')[1] }}" type="audio/mpeg" class="">
+                            
+
+                            Your browser does not support the audio element.
+                            
+                          </audio>
+  
+                        </div>
+                        </div> -->
+                      
+                      <div class="w-100 d-flex align-items-center justify-content-center flex-column mt-2 song-container">
+                        <div class="w-100 d-flex align-items-center justify-content-center">
+                          <div class="fs-6 mb-2" style="color: #e64b8e;">
+                                                    
+                        <form method="POST" action="{{url_for('auth.like_song', song_id=song.id)}}" data-song-id="{{ song.id }}" class="mb-3 mt-3 like-form d-flex flex-column">
+                          
+                          <button type="submit" class="btn like-button" style="background-color: black; color: #c3e7e6; border: 2px solid white;">
+                            <i style="color: rgb(100, 122, 122);" class="fa-solid fa-heart {% if current_user in song.liked_by_users %} text-danger {% endif %}"></i>
+                          </button>
+                          <h8 style="color: rgb(255, 255, 255); font-size: small;" class="like-count">{{ song.likes }} Likes</h8>
+
+                        </form>
+                          </div>
+                          <!-- <div class="hoverable-div d-flex flex-column align-items-center justify-content-center mb-2" id="hover-div">
+                            <i class="fa-solid fa-circle-info" style="font-size:20px;"></i>
+                           
+                            <div class="hover-content" id="info">
+                              <div class="bg-gradient-secondary text-white fw-bold border-bottom">{{song.name}}</div>
+                              <h8 class="fw-bold">{{song.artist}}</h8>
+                              <h8 class="text-secondary fw-semibold d-inline">uploaded by : {{song.creator_name}}</h8>
+                              <h6 class="border-bottom">Lyrics</h6>
+                              <h6 class="" style="font-size: x-small;">{{song.lyrics}}</h6>
+                              <h6 class="border-bottom">Genre</h6>
+                              <h6 class="" style="font-size: x-small;">{{song.genre}}</h6>
+                              
+        
+                            </div>
+        
+                          </div> -->
+
+                        </div>
+
+                        {% if not user.is_creator or user.is_creator %} 
+                        <!-- <form method="POST" action="{{ url_for('auth.addtoplaylistcreatorpage', song_id=song.id) }}" data-song-playlist="{{song.id}}" class="add-to-playlist">
+                          <div class="form-group d-flex gap-2 w-100 mb-5">
+                              <select name="playlist_id" class="form-control p-2 playlishover bg-dark" style="color: rgb(255, 255, 255);">
+                                  <option value="" selected disabled class="bg-dark">Select Playlist</option>
+                                  {% if user.playlists %}
+                                    {% for playlist in user.playlists %}
+    
+                                        <option value="{{ playlist.id }}" class="bg-dark">{{ playlist.name }}</option>
+                                    {% endfor %}
+                                  {% else %}
+                                  <option value="">No Playlist Created</option>
+                                  {% endif %}
+                                  
+    
+                              </select>
+                              <button type="submit" class="btn btn-secondary d-block playlishover" style="">
+                                <i class="fa-solid fa-plus"></i> 
+                            </button>
+                          </div>
+                          
+                      </form>  -->
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+
+          
+                
+             
+                
+
+
+
+                
+            {% endfor %}
+
+
+        {% else %}
+            <div class="nosongfound" style="width: 80vw; display: flex; align-items: center; justify-content: center;"><h2 class="btn btn-secondary">No songs To Display</h2></div>
+        {% endif %}
+
+    </div>
+    <br>
+    <h2 class="border-bottom fs-2 mt-2">Albums</h2>
+
+    <div class="w-100 p-5 d-flex align-items-center justify-content-start gap-4" style="overflow-x: auto;">
+
+      
+      {% if albums %}
+        
+        {% for album in albums %}
+        
+        <div class="d-flex flex-column mt-5 justify-content-center align-items-center align-items-center gap-2 rounded-5" style="box-shadow: black 1rem 1.5rem 1.7rem; font-size: small; width: 20rem; height: 20rem; padding: 2rem;">
+          <img src="{{ album.cover_image.split('/website')[1] }}" alt="" style="width: 100px; height: 100px; border: 2px solid; border-radius: 6rem; box-shadow: black 1rem 0.5rem 3rem;">
+          
+            <div class="d-flex flex-column gap-1 align-items-center justify-content-center flex-wrap" style="font-size: small;">
+              
+              <p class="border-bottom">{{album.name}}</p>
+              <p class="border-bottom">Genre: {{ album.genre }}</p>
+            </div>
+
+
+              <div class="d-flex flex-column flex-item align-items-center justify-content-center flex-wrap gap-2 album-container" style="font-size: small;">
+                <div class="functions d-flex flex-item align-items-center justify-content-center flex-wrap gap-3">
+                  <a href="/albums/{{ album.id }}/songs" class="btn btn-primary flex-item ml-3" style="font-size: small;">Explore</a>
+                <!-- <a href="/albums/{{ album.id }}/edit" class="btn btn-warning flex-item ml-3">Edit</a> -->
+            </div>
+              <form method="POST" action="{{url_for('auth.like_album_user', album_id=album.id)}}" class="gap-2 album-like-form" data-album-id="{{album.id}}">
+                            
+                <button type="submit" class="btn like-button" style="background-color: black; color: #c3e7e6; border: 2px solid white;">
+                  <i style="color: rgb(100, 122, 122);" class="fa-solid fa-heart {% if current_user in album.users_who_liked_album %} text-danger {% endif %}"></i>
+                </button>
+              </form>
+              <p class="fw-semibold album-like-count">Likes: {{album.like}} Likes</p>
+  
+
+              </div>
+            
+
+           
+
+            
+            <!-- <a href="/albums/{{ album.id }}/delete" class="btn btn-danger" >Delete Album</a> -->
+
+          </div>
+          
+          
+           {% endfor %}
+      {% else %}
+        <div class="nosongfound w-100" style="width: 80vw; display: flex; align-items: center; justify-content: center;"><h2 class="btn btn-secondary">No Albums To Display</h2></div>
+      {% endif %}
+
+      
+    </div>
+  </div>   
+         
+            
+
+
+
+        
+</body>
+
+<script>
+  function hideDivOnSmallScreen() {
+  var div = document.getElementById("searchbar1");
+  var div2 = document.getElementById("searchbar2");
+  if (window.innerWidth < 900) { // Adjust the screen width threshold as needed
+    div.style.display='none'
+    div2.classList.add('d-flex')
+  } else {
+    div.style.display='flex'
+    div2.classList.remove('d-flex')
+    
+  }
+}
+
+// Initial call to set the initial state based on screen size
+hideDivOnSmallScreen();
+
+// Listen for window resize events to adjust visibility
+window.addEventListener('resize', hideDivOnSmallScreen);
+  document.addEventListener('DOMContentLoaded', function () {
+      // Attach event listeners and update UI for each song
+      document.querySelectorAll('.like-form').forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+              event.preventDefault(); // Prevent the default form submission
+
+              const formData = new FormData(this);
+              console.log(formData)
+              const songContainer = this.closest('.song-container');
+              const songId = form.getAttribute('data-song-id');
+              console.log(songId, songContainer)
+
+              fetch(this.action, {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                      'X-Requested-With': 'XMLHttpRequest' // Add this header to identify the AJAX request
+                  }
+              })
+              .then(response => response.json())
+              .then(data => {
+                  // Update the UI with the new like count for the specific song
+                  const likeCountElement = songContainer.querySelector('.like-count');
+                  // const likeCountElement = document.querySelector('.song-container .like-count');
+                  console.log(data)
+                  console.log(likeCountElement)
+                  if (likeCountElement) {
+                      likeCountElement.innerText = data.likes + ' Likes';
+                      console.log(data.likes)
+                      const heartIcon = songContainer.querySelector('.fa-heart');
+      
+                      if (heartIcon && data.status === 'liked') {
+                          heartIcon.classList.add('text-danger');
+                      }
+                      else {
+                        heartIcon.classList.remove('text-danger');
+                      }
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          });
+      });
+      document.querySelectorAll('.album-like-form').forEach(function (form) {
+        
+          form.addEventListener('submit', function (event) {
+              event.preventDefault(); // Prevent the default form submission
+
+              const formData = new FormData(this);
+              console.log(formData)
+              const songContainer = this.closest('.album-container');
+              const songId = form.getAttribute('data-album-id');
+              console.log(songId, songContainer)
+
+              fetch(this.action, {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                      'X-Requested-With': 'XMLHttpRequest' // Add this header to identify the AJAX request
+                  }
+              })
+              .then(response => response.json())
+              .then(data => {
+                  // Update the UI with the new like count for the specific song
+                  const likeCountElement = songContainer.querySelector('.album-like-count');
+                  // const likeCountElement = document.querySelector('.song-container .like-count');
+                  console.log(data)
+                  console.log(likeCountElement)
+                  if (likeCountElement) {
+                      likeCountElement.innerText = data.likes + ' Likes';
+                      console.log(data.likes)
+                      const heartIcon = songContainer.querySelector('.fa-heart');
+      
+                      if (heartIcon && data.status === 'liked') {
+                          heartIcon.classList.add('text-danger');
+                      }
+                      else {
+                        heartIcon.classList.remove('text-danger');
+                      }
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          });
+      });
+      document.querySelectorAll('.add-to-playlist').forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+              event.preventDefault(); // Prevent the default form submission
+
+              const formData = new FormData(this);
+              console.log(formData)
+              const songContainer = this.closest('.song-container');
+              const songId = form.getAttribute('data-song-playlist');
+              console.log(songId, songContainer)
+
+              fetch(this.action, {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                      'X-Requested-With': 'XMLHttpRequest' // Add this header to identify the AJAX request
+                  }
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if(data.status==="success"){
+                    alert("song successfully adeed to playlist");
+                    successflash=document.getElementById("successflash");
+                    successdiv=document.getElementById("successdiv")
+                    successdiv.classList.add('show' ,'align-items-center' ,'alert-success', 'justify-content-around');
+                    // successdiv.style.display='block';
+                    console.log(successdiv)
+                    successflash.innerText="song successfully added to playlist"
+                    
+                  }
+                  else if (data.status==="already added"){
+                    successflash=document.getElementById("successflash");
+                    successdiv=document.getElementById("successdiv")
+                    successdiv.classList.add('show' ,'align-items-center' ,'alert-warning', 'justify-content-around');
+                    // successdiv.style.display='block';
+                    console.log(successflash)
+                    successflash.innerText="song already added to playlist"
+
+                    
+                  }
+                  else if (data.status==="failure"){
+                    errorflash=document.getElementById("successflash");
+                    errordiv=document.getElementById("successdiv")
+                    errordiv.classList.add('show' ,'align-items-center', 'justify-content-around', 'alert-danger', 'alert-danger');
+                    // errordiv.style.display='block';
+                    console.log(errorflash)
+                    errorflash.innerText="try again"
+
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          });
+      });
+    });
+
+  
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const audioElements = document.querySelectorAll('audio');
+      
+      audioElements.forEach(function (audio) {
+          audio.addEventListener('play', function () {
+              // Pause all other audio elements
+              audioElements.forEach(function (otherAudio) {
+                  if (otherAudio !== audio && !otherAudio.paused) {
+                      otherAudio.pause();
+                  }
+              });
+          });
+      });
+  });
+</script>
+<script>
+  let songElements = document.querySelectorAll('.song');
+let dark = false;
+
+function changedivstyle() {
+songElements.forEach(element => {
+  if (dark === false) {
+      element.classList.add('addstyle');
+  } else {
+      element.classList.remove('addstyle');
+  }
+});
+
+dark = !dark;
+}
+</script>
+<script>
+  function verticalgrid(){
+    let songELements=document.querySelectorAll('.song-container')
+    songELements.forEach(SongELement => {
+      SongELement.classList.remove('justify-content-start')
+      SongELement.classList.add('flex-wrap' , 'justify-content-around')
+      document.querySelectorAll(".song-card").forEach(songcard =>{
+        songcard.style.width="13rem"
+        songcard.style.height="22rem"
+      })
+
+      console.log("inside verticalgrid")
+    })
+  }
+  function horizontalgrid(){
+    let songELements=document.querySelectorAll('.song-container')
+    songELements.forEach(SongELement => {
+      SongELement.classList.remove('justify-content-around' , 'flex-wrap')
+      SongELement.classList.add('justify-content-start')
+      document.querySelectorAll(".song-card").forEach(songcard =>{
+        songcard.style.width="20rem"
+        songcard.style.height="25rem"
+      })
+
+      console.log("inside horizontalgrid")
+    })
+  }
+</script>
+</html>

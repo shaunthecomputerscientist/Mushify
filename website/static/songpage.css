@@ -1,0 +1,157 @@
+
+#welcome-creator{
+    display: inline;
+    background-color: rgba(41, 44, 43, 0);
+    color: cadetblue;
+  }
+  .body-container{
+    background-color: rgb(35, 35, 38);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    gap: 5rem;
+  }
+  .song-container{
+    display: flex;
+    background-color: rgb(34, 32, 32);
+    justify-content: flex-start;
+    flex-direction:row;
+    align-items: center;
+    flex-wrap: wrap;
+    
+    
+  }
+  .song-card{
+    height: 30vh;
+    width: 14%;
+    padding: 0.5rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    margin-bottom: 10rem; /* Add spacing between song cards */
+     /* Add padding to the song card content */
+    border-radius: 5px;
+  }
+  .song-image{
+    width: 100%; /* Ensure the img doesn't exceed the width of its container */
+    
+    /* border: 2px solid white; */
+    object-fit: contain;
+    display: flex; /* Use flex to center the contained img vertically and horizontally */
+    flex-direction: column;
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+    height: 100%;
+    padding: 2rem;
+        
+  }
+  .song-card img{
+    /* Ensure the img doesn't exceed the width of its container */
+    height: 100%; /* Ensure the img doesn't exceed the height of its container */
+    object-fit:fill;
+    border: 2px solid white;
+    
+  
+    
+  }
+  
+  .card-body{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0rem 0rem;
+    
+
+    
+
+  }
+  .card-body audio{
+    background-color: transparent;
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem;
+    
+  }
+  .card-body audio::-webkit-media-controls-panel {
+    background:linear-gradient(to right, rgb(226, 170, 190), white, rgb(239, 239, 209));
+    border: 2px solid white;
+     border-radius: 3rem;
+    
+    
+}
+.card-body audio::-webkit-media-controls-panel:hover {
+    background:linear-gradient(to right,  white, rgb(239, 239, 209),rgb(226, 170, 190),);
+    border: 2px solid white;
+     border-radius: 3rem;
+    
+}
+.card-body audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-pause-button {
+      border-radius: 50%; /* Make it a circle */
+      color: aliceblue;
+      
+  }
+  .card-body audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-pause-button:hover{
+/* Style the play button */
+      background-color: #c3e7e6; /* Green color for play button */
+      border-radius: 50%; /* Make it a circle */
+      color: aliceblue;
+      
+  }
+
+  .card-body audio{
+    background-color: transparent;
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem;
+    
+  }
+  .card-body audio::-webkit-media-controls-panel {
+    background:linear-gradient(to right, rgb(226, 170, 190), white, rgb(239, 239, 209));
+    border: 2px solid white;
+     border-radius: 3rem;
+    
+    
+}
+.card-body audio::-webkit-media-controls-panel:hover {
+    background:linear-gradient(to right,  white, rgb(239, 239, 209),rgb(226, 170, 190),);
+    border: 2px solid white;
+     border-radius: 3rem;
+    
+}
+.card-body audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-pause-button {
+      border-radius: 50%; /* Make it a circle */
+      color: aliceblue;
+      
+  }
+  .card-body audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-pause-button:hover{
+/* Style the play button */
+      background-color: #c3e7e6; /* Green color for play button */
+      border-radius: 50%; /* Make it a circle */
+      color: aliceblue;
+      
+  }
+  .function{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .functions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-left: 2rem;
+  }
+  .functions a{
+    height: 2.2rem;
+    
+  }

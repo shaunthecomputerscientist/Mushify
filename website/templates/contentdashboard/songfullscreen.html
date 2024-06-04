@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{song.name}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <style>
+        .seccon {
+            background: linear-gradient(to top, rgb(255, 0, 85), rgb(54, 190, 205), rgb(226, 214, 75),rgb(244, 36, 123));
+            /* background: radial-gradient(circle, rgb(255, 0, 85), rgb(54, 190, 205), rgb(226, 214, 75),rgb(244, 36, 123)); */
+            background-size: 400% 400%;
+            animation: gradientRotate 20s linear infinite alternate;
+            border: 1rem solid transparent;
+            border-radius: 4rem;
+            
+        }
+        .seccon2 {
+            background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url({{ song.cover_image_path.split('/website')[1] }});
+            /* background: radial-gradient(circle, rgb(255, 0, 85), rgb(54, 190, 205), rgb(226, 214, 75),rgb(244, 36, 123)); */
+            background-size: 200% 200%;
+            animation: gradientRotate 30s linear infinite alternate;
+            border: 1rem solid transparent;
+            border-radius: 4rem;
+            
+        }
+        audio::-webkit-scrollbar-track, audio::-webkit-scrollbar-track-piece, audio::-webkit-media-controls-panel {
+            display:flex;
+            overflow-x: auto;
+            background-size: 200% 200%;
+
+            background: linear-gradient(to right,  rgb(255, 0, 85), rgb(54, 190, 205), rgb(226, 214, 75),rgb(244, 36, 123));
+            animation: gradientRotate2 20s linear infinite;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            
+         }
+                @keyframes gradientRotate {
+        0% {
+            background-position: 0% 0%;
+        }
+        100% {
+            background-position: 100% 100%;
+        }
+        }
+        @keyframes gradientRotate2 {
+        0% {
+            background-position: 0% 0%;
+        }
+        100% {
+            background-position: 100% 100%;
+        }
+        }
+
+
+     audio::-webkit-media-controls-play-button,
+        audio::-webkit-media-controls-pause-button {
+            background-color: #5656565b !important;
+            border-radius: 2rem !important;
+            margin: 0 10px !important;
+            cursor: pointer !important;
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+        color: #000000;
+        font-size: medium;
+        font-weight: 700;
+        }
+        audio::-webkit-media-controls-timeline {
+        width: 10rem;
+        }
+        button{
+            background-color: transparent;
+        }
+        audio:hover {transform: scale(1.1);filter: drop-shadow(2px 3px 3px #333);}
+
+        @keyframes waves{
+            0%, 100%{
+                transform: scaleY(1);
+            }
+            50%{
+                transform: scaleY(4);
+            }
+        }
+
+        .wave{
+            display: none;
+            overflow: hidden;
+            height: 5rem;
+        }
+        .wave .bars{
+            animation: waves 1s ease-in-out infinite alternate;
+            transition: 1s ease-in-out;
+            border: 0.5rem solid transparent;
+            box-shadow: 0.3rem 0.1rem 0.5rem;
+            border-radius: 2rem;
+
+        }
+        .bars{
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        .wave .bars:nth-child(1)
+        {  background: rgb(30, 238, 182);
+            animation-delay: 1.4s;
+        }
+        .wave .bars:nth-child(2)
+        {  background-color: rgb(153, 230, 30);
+            animation-delay: .3s;
+        }
+        .wave .bars:nth-child(3)
+        {  background-color: rgb(47, 196, 222);
+            animation-delay: .8s;
+        }
+        .wave .bars:nth-child(4)
+        {  background-color: rgb(202, 222, 23);
+            animation-delay: 1.2s;
+        }
+        .wave .bars:nth-child(5)
+        {  background-color: rgb(222, 23, 90);
+            animation-delay: 1s;
+        }
+        .wave .bars:nth-child(6)
+        {  background-color: rgb(216, 198, 39);
+            animation-delay: .8s;
+        }
+        .wave .bars:nth-child(7)
+        {  background-color: rgb(219, 79, 244);
+            animation-delay: .7s;
+        }
+        .wave .bars:nth-child(8)
+        {  background-color: rgb(209, 222, 23);
+            animation-delay: .2s;
+        }
+        .wave .bars:nth-child(9)
+        {  background-color: rgb(234, 87, 146);
+            animation-delay: .5s;
+        }
+        .wave .bars:nth-child(10)
+        {  background-color: rgb(104, 234, 191);
+            animation-delay: .6s;
+        }
+        .wave .bars:nth-child(11)
+        {  background-color: rgb(200, 236, 81);
+            animation-delay: .3s;
+        }
+        .wave .bars:nth-child(12)
+        {  background-color: rgb(246, 127, 71);
+            animation-delay: .9s;
+        }
+        .infoo{
+            z-index: 3;
+            position: absolute;
+            margin-bottom: 12rem;
+
+        }
+        .hover-content{
+          
+            display: none;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.815);
+        }
+        .infoo:hover .hover-content{
+            color: white;
+            display: flex;
+            width: 20rem;
+            padding: 1rem;
+            font-size: small;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0.8;
+            z-index: 3;
+
+        }
+        .fastslow:hover {transform: scale(1.2);filter: drop-shadow(2px 2px 3px #333);}
+        .audio::-webkit-scrollbar-track-piece{
+            background: #171616;
+        }
+        .hidedetails{
+              display:none;
+        }
+        #successdiv{
+            display: none;
+        }
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+<body class="bg-dark p-5">
+
+
+    <div class="alert alert-dismissable fade w-100" role="alert" id="successdiv">
+        <p id="successflash" class="text-black fs-6 d-inline">
+
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.className='alert alert-dismissable fade w-100'; ">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      
+    </div>
+<div class="maincon d-flex flex-column align-items-center justify-content-center bg-dark p-5">
+    
+    <div class="seccon d-flex flex-column p-5 pt-0"  style="box-shadow: #000000 1rem 1rem 1rem; background-position:center; overflow-y: scroll; height: 40rem; width: 25rem;" id="maincover">
+       <div class="d-flex align-items-center justify-content-center flex-column" style="position: relative;">
+        <i class="fa-solid fa-gear mb-3" id="togglesettings"></i>
+        <div id="setting" class="justify-content-between p-2 rounded-2" style="width:10rem; height: 4rem; gap: 2rem; display: none; box-shadow: 0.4rem 0.2rem 1rem rgba(43, 21, 29, 0.492); overflow-x: scroll;">
+            
+            <p class="rounded-2 text-white fs-6 p-2" onclick="changedivstyle()"><i class="fa-solid fa-rotate fa-beat p-1 rounded-3" style="color: #ffffff; box-shadow: 1.9px 1px 0.3rem rgb(0, 0, 0);"></i></p>
+            {% if current_user.is_creator %}
+            <div class="ms-2" style="">
+                <form id="addtofav-form" action="/addtofav/{{song.id}}" method="post">
+                    <button type="submit" class="d-flex align-items-center btn justify-content-center p-2 rounded-2 gap-2">
+                        <i class="fa-regular fa-bookmark p-2 rounded-3" id="favicon" {% if status=='present' %} style="color: cyan; box-shadow: 1.9px 1px 0.3rem black;" {% else %} style="color: red; box-shadow: 1.9px 1px 0.3rem black;" {% endif %}></i>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+            <p id="playlistbutton" class="p-1" style="background-color: transparent;"><i class="fa-solid fa-list p-2 rounded-3" style="color: #cfcfcf; border: none; background-color: transparent; box-shadow: 1.9px 1px 0.3rem black;"></i></p>
+            <div class="d-flex flex-column align-items-center justify-content-center border" style="position: relative; margin-left: 5rem;">
+                <form method="POST" action="{{ url_for('auth.addtoplaylistcreatorpage', song_id=song.id) }}" class="align-items-center justify-content-center add-to-playlist" style="display: none;" data-song-playlist="{{song.id}}">
+                    <div class="form-group d-flex p-2" style="width: 200px;">
+                        <select name="playlist_id" class="form-control p-2" style="background: transparent;">
+                            <option value="" selected disabled>Select Playlist</option>
+                            {% if user.playlists %}
+                              {% for playlist in user.playlists %}
+        
+                                  <option value="{{ playlist.id }}">{{ playlist.name }}</option>
+                              {% endfor %}
+                            {% else %}
+                            <option value="">No Playlist Created</option>
+                            {% endif %}
+                            
+        
+                        </select>
+                        <button type="submit" class="btn btn-secondary d-block" style="background-color: transparent;">
+                          <i class="fa-solid fa-plus"></i> 
+                      </button>
+                    </div>
+                    
+                </form>
+    
+              </div>
+        </div>
+        
+
+          
+       </div>
+
+        <div class="backbutton w-100 d-flex justify-content-between">
+            <button id="goBackButton" class="rounded-3 fs-6 border"><i class="fa-solid fa-backward-step" style="color: #ffffff;"></i></button>
+            <a href="/fullscreen-view/{{next_song}}"><button id="goBackButton" class="rounded-3 fs-6 border"><i class="fa-solid fa-forward-step" style="color: #ffffff;"></i></button></a>
+        </div>
+        
+
+
+        <div class="img d-flex flex-column align-items-center justify-content-center p-3">
+            <div class="infoo">
+                <i class="fa-solid fa-circle-info" style="color: rgba(0, 0, 0, 0.59);"></i>
+                <div class="hover-content">
+                    <p class="fw-semibold text-info">{{song.artist}}</p>
+                    <p class="fw-semibold d-inline">uploaded by : {{song.creator_name}}</p>
+                    <h4 class="border-bottom fw-semibold">Genre</h4>
+                    <h5 style="font-size: xx-small; font-style:normal;">{{song.genre}}</h5>
+                    <h4 class="border-bottom">Lyrics</h4>
+                    <h5 style="font-size: xx-small; font-style:normal;">{{song.lyrics}}</h5>
+                    <div class="scroll border w-75">
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <img src="{{ song.cover_image_path.split('/website')[1] }}" class="card-img-top border border-white image-fluid rounded-3" alt="{{song.name}}" style="width: 10rem; height: 10rem;box-shadow: black 1rem 0.5rem 1rem;">
+            
+        </div>
+        <div class="song-name w-100 d-flex align-items-center justify-content-center fs-4 border-bottom border-3 border-dark mb-3 gap-2">
+          <h4 class="fw-bold fs-6">{{song.name}}</h4>
+        </div>
+        <div class="wave align-items-center justify-content-between w-100 p-3" id="wave-container">
+                <div class="cont d-flex align-items-center justify-content-center gap-2 rounded-5">
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+                    <div class="bars"></div>
+    
+                </div>
+                <div class="data">
+                    <input type="hidden" id="songid" value="{{ song.id }}">
+                    <input type="hidden" id="userid" value="{{ current_user.id }}">
+                </div>
+
+                
+
+            
+          </div>
+        
+        <div class="w-100 d-flex align-items-center justify-content-center gap-2">
+            <div onclick="rewind(10)" class=""><i class="fastslow fa-solid fa-backward fs-4"></i></div>
+            
+            
+            <audio controls loop class="" style="width: 200px;" id="control-audio" onplay="startPlayback()"
+            onpause="endPlayback()">
+              <source src="{{ song.song_file_path.split('/website')[1] }}" type="audio/mpeg" class="" style="">
+              
+    
+              Your browser does not support the audio element.
+              
+              
+            </audio>
+            <!-- <div class="custom-audio-container">
+                <button class="btn btn-secondary" onclick="togglePlayback()">
+                    <i class="fastslow fa-solid fs-4" id="playPauseIcon"></i>
+                </button>
+                <input type="range" class="form-range" id="progressBar" value="0" max="100">
+                <input type="range" class="form-range" id="volumeControl" value="100" max="100">
+            </div> -->
+            
+            
+           
+            <div onclick="fastForward(10)" class=""><i class="fastslow fa-solid fa-forward fs-4"></i></div>
+    
+          </div>
+          <div class="like mt-3 d-flex flex-column align-items-center justify-content-center song-container">
+            <form method="POST" action="{{url_for('auth.like_song_user_page', song_id=song.id)}}" data-song-id="{{song.id}}" class="like-form">
+                            
+                <button type="submit" class="btn like-button" style="background-color: rgba(116, 116, 116, 0); color: #c3e7e600; border: 2px solid rgb(255, 255, 255);  box-shadow: black 1px 1px 0.625rem;">
+                  <i style="color: rgb(100, 122, 122); font-size: 1rem;" class="fa-solid fa-heart {% if current_user in song.liked_by_users %} text-danger {% endif %}"></i>
+                </button>
+              </form>
+             <div class="fs-6 fw-semibold d-flex flex-column align-items-center justify-content-center">
+                <p class="mt-3">Liked by <span style="color: rgb(228, 51, 101);" class="like-count">{{song.likes}}</span> Users</p>
+              </div>
+              <a style="position: relative; text-decoration: none; color: white; font-size: small;" class="mt-2" href="{{ url_for('auth.profilepage', user_id=song.creator_id) }}"><button class="btn btn-outline-info" style="font-size:smaller; color: #ffffff;">Uploaded by  {{song.creator_name}}</button></a>
+
+
+
+
+          </div>
+          <form id="commentForm" class="d-flex mt-5">
+            <input type="hidden" id="user_id" value="{{ current_user.id }}">
+            <input type="hidden" id="song_id" value="{{ song.id }}">
+            <textarea id="commentText" class="form-control w-100 h-25" placeholder="Write your comment here..." required></textarea><br>
+            <button type="" class="btn btn-outline-info" onclick="postComment()" style="width: 2rem; height: 2.5rem;"><i class="fa-regular fa-paper-plane"></i></button>
+        </form>
+        
+
+          <div id="commentsSection" class="">
+            {% if song.comments %}
+                <div id="commentsList" class="d-flex flex-column justify-content-start">
+                    {% for comment in song.comments[::-1] %}
+                    <div class="d-flex flex-column justify-content-start rounded-3 gap-2 p-2" style="color: rgb(255, 255, 255); list-style: none; box-shadow: 0.3rem 0.2rem 0.5rem black;">
+                        <li class="text-wrap" style="font-size: medium; color: rgb(207, 11, 73);"><a style=" color: rgb(207, 11, 73);" href="{% if comment.user.is_creator %}{{ url_for('auth.profilepage', user_id=comment.user.id) }}{%endif%}">{{ comment.user.user_name }}</a>-{{ comment.timestamp.strftime('%Y-%m-%d') }}</li>
+                        <li class="text-wrap fw-semibold" style="overflow-x: auto; font-size:small; text-wrap: wrap;">{{ comment.comment }}</li>
+                    </div>
+                        
+                        <!-- <ul>
+                            {% for reply in comment.replies %}
+                                <li>{{ reply.user.user_name }} - {{ reply.timestamp.strftime('%Y-%m-%d') }}</li>
+                                <li>{{ reply.comment }}</li>
+                            {% endfor %}
+                        </ul> -->
+                    {% endfor %}
+                    </div>
+            {% else %}
+                <p>No comments yet.</p>
+            {% endif %}
+        </div>
+
+          
+          
+    </div>
+
+
+
+   
+</div>
+
+
+
+
+
+    <script>
+        let goBackButton = document.getElementById("goBackButton");
+        let audio = document.getElementById("control-audio");
+        let waveContainer = document.getElementById("wave-container");
+        let bars = document.querySelectorAll("bars")
+        let playlistbutton = document.getElementById("playlistbutton")
+        let playlistdivvv = document.querySelector(".add-to-playlist")
+        let maindiv = document.getElementById("maincover")
+        let showing=false
+        console.log(playlistdivvv)
+        playlistbutton.addEventListener("click", function () {
+        if (showing === false) {
+            // playlistdivvv.style.display = "block";
+            showing = true;
+            playlistdivvv.offsetHeight;
+            playlistdivvv.style.opacity = "1";
+            playlistdivvv.style.display='flex';
+            playlistdivvv.style.position='absolute';
+            playlistbutton.innerHTML=  `<i class="fa-solid fa-list p-2 rounded-3" style="color: #fff; border: none; background-color: transparent; box-shadow: 1.9px 1px 0.3rem black;"></i>`
+            playlistdivvv.style.transition = "1s ease-in-out";
+            
+        } else {
+            
+                playlistdivvv.style.opacity = "0";
+                playlistbutton.innerHTML=  `<i class="fa-solid fa-list p-2 rounded-3" style="color: #cfcfcf; border: none; background-color: transparent; box-shadow: 1.9px 1px 0.3rem black;"></i>`
+                playlistdivvv.style.display='none'
+                playlistdivvv.style.transition = "1s ease-in";
+               
+
+            showing = false;
+        }
+        });
+
+
+
+
+      
+        goBackButton.addEventListener("click", function() {
+          window.history.back();
+        });
+        function fastForward(seconds) {
+        audio.currentTime += seconds;
+        }
+
+        function rewind(seconds) {
+        audio.currentTime -= seconds;
+        }
+        audio.addEventListener("play", function () {
+            waveContainer.style.display = "block";
+        });
+
+        audio.addEventListener("pause", function () {
+            waveContainer.style.display="none";
+            
+        });
+        
+      </script>
+      <script>
+        function changedivstyle() {
+        const songDetails = document.getElementById('maincover');
+        songDetails.classList.toggle('seccon');
+        songDetails.classList.toggle('seccon2');
+    }
+      </script>
+      <script>
+        let isAudioplaying=false;
+        
+        window.addEventListener('beforeunload', function (event) {
+            if(isAudioplaying){
+                endPlayback();
+            }
+                    })
+        function startPlayback() {
+            isAudioplaying=true;
+    const startTimeStamp = new Date().toISOString();
+    console.log('Playback started at:', startTimeStamp);
+
+    // Send start timestamp to the backend
+    sendTimestampToBackend('start', startTimeStamp);
+}
+
+function endPlayback() {
+    isAudioplaying=false;
+    // Capture end timestamp
+    const endTimeStamp = new Date().toISOString();
+    console.log('Playback ended at:', endTimeStamp);
+
+    // Send end timestamp to the backend
+    sendTimestampToBackend('end', endTimeStamp);
+}
+
+function sendTimestampToBackend(type, timestamp) {
+    const songId = document.getElementById('songid').value;
+    const userId = document.getElementById('userid').value;
+    const url = '/update_song_interaction'; // Replace with the actual backend endpoint
+
+    // Send timestamp to the backend using AJAX
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            songId: songId,
+            userId: userId,
+            type: type,
+            timestamp: timestamp,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Timestamp sent successfully:', data))
+    .catch(error => console.error('Error sending timestamp:', error));
+}
+
+      </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Attach event listeners and update UI for each song
+        document.querySelectorAll('.like-form').forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                const formData = new FormData(this);
+                console.log(formData)
+                const songContainer = this.closest('.song-container');
+                const songId = form.getAttribute('data-song-id');
+                console.log(songId, songContainer)
+
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest' // Add this header to identify the AJAX request
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the UI with the new like count for the specific song
+                    const likeCountElement = songContainer.querySelector('.like-count');
+                    // const likeCountElement = document.querySelector('.song-container .like-count');
+                    console.log(data)
+                    console.log(likeCountElement)
+                    if (likeCountElement) {
+                        likeCountElement.innerText = data.likes;
+                        console.log(data.likes)
+                        const heartIcon = songContainer.querySelector('.fa-heart');
+        
+                        if (heartIcon && data.status === 'liked') {
+                            heartIcon.classList.add('text-danger');
+                        }
+                        else {
+                          heartIcon.classList.remove('text-danger');
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const addToPlaylistForm = document.querySelector('.add-to-playlist');
+    if (addToPlaylistForm) {
+        addToPlaylistForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            console.log(formData);
+            const songContainer = this.closest('.song-container');
+            const songId = this.getAttribute('data-song-playlist');
+            console.log(songId, songContainer);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("Song successfully added to the playlist");
+                    const successflash = document.getElementById("successflash");
+                    const successdiv = document.getElementById("successdiv");
+                    successdiv.style.display="block"
+                    successdiv.classList.add('show', 'align-items-center', 'alert-success', 'justify-content-around');
+                    console.log(successdiv);
+                    successflash.innerText = "Song successfully added to the playlist";
+                } else if (data.status === "already added") {
+                    const successflash = document.getElementById("successflash");
+                    const successdiv = document.getElementById("successdiv");
+                    successdiv.style.display="block"
+                    successdiv.classList.add('show', 'align-items-center', 'alert-warning', 'justify-content-around');
+                    console.log("Added");
+                    console.log(successflash);
+                    successflash.innerText = "Song already added to the playlist";
+                } else if (data.status === "failure") {
+                    const errorflash = document.getElementById("successflash");
+                    const errordiv = document.getElementById("successdiv");
+                    errordiv.classList.add('show', 'align-items-center', 'justify-content-around', 'alert-danger', 'alert-danger');
+                    console.log(errorflash);
+                    errorflash.innerText = "Try again";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    }
+});
+
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+
+        const addToPlaylistForm = document.querySelector('.add-to-playlist');
+        console.log(addToPlaylistForm)
+    })
+  </script>
+
+
+<!-- <script>
+    // Your existing JavaScript...
+
+    // Custom music player functions
+    let isPlaying = false;
+    let audio2 = document.getElementById("control-audio");
+    let playPauseIcon = document.getElementById("playPauseIcon");
+    let progressBar = document.getElementById("progressBar");
+    let volumeControl = document.getElementById("volumeControl");
+
+    function togglePlayback() {
+        if (isPlaying) {
+            audio2.pause();
+            endPlayback();
+        } else {
+            audio2.play();
+            startPlayback();
+        }
+        isPlaying = !isPlaying;
+        updatePlayPauseIcon();
+    }
+    function fastForward(seconds) {
+        audio2.currentTime += seconds;
+        }
+
+        function rewind(seconds) {
+        audio2.currentTime -= seconds;
+        }
+    function updatePlayPauseIcon() {
+        playPauseIcon.className = isPlaying ? "fastslow fa-solid fa-pause fs-4" : "fastslow fa-solid fa-play fs-4";
+    }
+
+    // Event listener for progress bar
+    progressBar.addEventListener("input", function () {
+        const progressValue = progressBar.value;
+        const duration = audio2.duration;
+        const currentTime = (duration * progressValue) / 100;
+        audio2.currentTime = currentTime;
+    });
+
+    // Event listener for volume control
+    volumeControl.addEventListener("input", function () {
+        const volumeValue = volumeControl.value;
+        audio2.volume = volumeValue / 100;
+    });
+
+    // Your existing event listeners...
+</script> -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById('addtofav-form');
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (response.ok) {
+                fav_message = document.getElementById("fav-message")
+                favicon = document.getElementById("favicon")
+                const data = await response.json();
+                if (data.type && data.status==="success"){
+                    if(data.type==="added"){
+                            // fav_message.textContent="Added"
+                            // favicon.style.backgroundColor="cyan"
+                            favicon.style.color="cyan"
+                            console.log("added")
+
+                    }
+                    else if (data.type==="removed"){
+                        // fav_message.textContent="Removed"
+                        // favicon.style.backgroundColor="red"
+                        favicon.style.color="red"
+                        console.log("removed")
+                    }
+                }
+            } else {
+                console.error('Failed to add to favorites');
+            }
+        });
+    });
+
+</script>
+
+
+<!-- JavaScript -->
+<script>
+    function postComment() {
+        var userId = document.getElementById('user_id').value;
+        var songId = document.getElementById('song_id').value;
+        var commentText = document.getElementById('commentText').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/post_comment/'+songId, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    // Comment posted successfully, do something (e.g., update UI)
+                    alert('Comment posted successfully!');
+                    // You can also update the UI to display the newly posted comment
+                } else {
+                    alert('Failed to post comment. Please try again.');
+                }
+            }
+        };
+        var formData = 'user_id=' + encodeURIComponent(userId) + '&song_id=' + encodeURIComponent(songId) + '&comment=' + encodeURIComponent(commentText);
+        xhr.send(formData);
+    }
+</script>
+<script>
+    document.getElementById('togglesettings').addEventListener('click', function(){
+       var setting=document.getElementById('setting');
+       if (setting.style.display=='none'){
+        setting.style.display='flex'
+       }
+       else{
+        setting.style.display='none'
+       }
+    })
+</script>
+    
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+    {% if category=='error' %}
+    <div class="alert alert-danger alert-dismissable fade show" role="alert" id="errorAlert"> 
+        {{ message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.className='alert alert-dismissable fade w-100'; ">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% else %}
+      <div class="alert alert-success alert-dismissable fade show" role="alert" id="successAlert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.className='alert alert-dismissable fade w-100'; ">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endif %}
+      {% endfor %}
+{% endif %}
+{% endwith %}
+<!-- {% if user=="user" %}
+<h1>User Login</h1>
+{% else %}
+<h1>Creator Login</h1>
+{% endif %} -->
+
+<div class="signup-container mt-5 d-flex flex-column align-items-center justify-content-center">
+  {% if user %}
+  <h1 class="border-bottom">Login</h1>
+  {% else %}
+  <h1 class="border-bottom">Login Admin</h1>
+  {% endif %}
+  <div class="detail-field border border-white p-3 mt-3 btn btn-primary bg-dark" style="box-shadow:  black 1rem 1rem 2rem;">
+    <div class="reverse w-100 d-flex justify-content-end">
+      <i class="fa-solid fa-rotate-right" onclick="emptycredentials()"></i>
+    </div>
+        <form method="post" class="p-3">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="enter email">
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+          </div>
+          <div class="mb-3">
+            <label for="password1" class="form-label">Password</label>
+            <div class="border border-secondary" style="z-index:2;"><i id="togglePassword" class="fas fa-eye-slash" style="color: rgb(74, 74, 74); margin-top: 10px; margin-left:5rem;"></i></div>
+            <input type="password" class="form-control" name="password1" id="password1" placeholder="enter password">
+      
+          </div>
+      
+          <button type="submit" class="btn btn-outline-info fs-3 w-100 fw-semibold" id="submitbutton">login</button>
+        </form>
+
+        <div class="signup rounded-2 p-2" style="box-shadow: black 1rem 1rem 2rem;">
+          <h6 class="">Do not have account?</h6>
+          <div class="d-flex align-items-center justify-content-cente gap-2 p-2">
+            <p class="btn btn-outline-info"><a href="{{url_for('auth.signupuser')}}" style="color: white; text-decoration: none;">signup as User</a></p>
+            <p class="btn btn-outline-info"><a href="{{url_for('auth.signupadmin')}}" style="color: white; text-decoration: none;">signup as Admin</a></p>
+          </div>
+          <p><a href="{{url_for('auth.forgot_password')}}" class="text-secondary">forgot password?</a></p>
+        </div>
+  </div>
+  
+
+    <script>
+    document.querySelector("#errorAlert button.close").addEventListener("click", function() {
+      document.querySelector("#errorAlert").classList.remove("show");
+    });
+    
+    document.querySelector("#successAlert button.close").addEventListener("click", function() {
+      document.querySelector("#successAlert").classList.remove("show");
+    });
+
+    </script>
+
+    <script>
+          const passwordInput = document.getElementById('password1');
+const togglePassword = document.getElementById('togglePassword');
+
+togglePassword.addEventListener('click', function () {
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text'; // Show password
+    togglePassword.classList.remove('fa-eye-slash');
+    togglePassword.classList.add('fa-eye');
+  } else {
+    passwordInput.type = 'password'; // Hide password
+    togglePassword.classList.remove('fa-eye');
+    togglePassword.classList.add('fa-eye-slash');
+  }
+});
+
+    </script>
+    <script>
+      function emptycredentials(){
+        let email = document.getElementById("email")
+        let password1 = document.getElementById("password1")
+        console.log("INSIDE emptycredentials")
+        email.value=""
+        password1.value=""
+      }
+    </script>
+
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Profile Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      .form-control{
+        background-color: rgb(31, 31, 31);
+      }
+    </style>
+    
+</head>
+<body class="text-white" style="background-color: rgb(29, 28, 28);">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+        <div class="container-fluid bg-dark">
+          <h4 type="button" class="mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Mushify <i class="fa-regular fa-star" style="color: #4dfed2;"></i></h4>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 bg-dark">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/logout">LogOut</a></li>
+              <li class="nav-item"><a class="nav-link" href="/creator/dashboard">Creator-Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="/discover-songs">Discover Songs</a></li>                
+                
+                
+              <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li> -->
+              <!-- <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div class="flashboard">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+            {% if category=='error' %}
+            <div class="alert alert-danger alert-dismissable fade show" role="alert" id="errorAlert"> 
+                {{ message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% else %}
+              <div class="alert alert-success alert-dismissable fade show" role="alert" id="successAlert">
+                {{ message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+          {% endif %}
+          {% endfor %}
+      {% endif %}
+      {% endwith %}
+      </div>
+    <div class="mt-2 d-flex flex-column align-items-center justify-content-between gap-2 p-5">
+        <h2 class="fs-2 btn btn-secondary text-warning bg-dark">Creator Profile Form</h2>
+        <form class="d-flex align-items-center justify-content-around gap-2 flex-column border border-secondary bg-secondary rounded-3 p-2 bg-dark" enctype="multipart/form-data" method="POST">
+            <div class="form-group d-flex align-items-center justify-content-center flex-column  gap-2 btn btn-secondary bg-dark">
+                <label for="profilePicture" class="btn btn-outline-info">Profile Picture</label>
+                <input type="file" class="form-control-file btn btn-warning" name="profilepicture" id="profilePicture">
+            </div>
+            <!-- Creator Name -->
+            <div class="form-group d-flex align-items-center justify-content-center flex-column gap-2 btn btn-secondary bg-dark w-100">
+                <label for="creatorName" class="btn btn-outline-info">Creator Name</label>
+                <input type="text" class="form-control" id="creatorName" name="creatorName" placeholder="(it can be same as username)">
+            </div>
+
+            <!-- Description/Bio -->
+            <div class="form-group d-flex align-items-center justify-content-center flex-column gap-2 btn btn-secondary bg-dark w-100">
+                <label for="bio" class="btn btn-outline-info">Description/Bio</label>
+                <textarea class="form-control" id="bio" rows="4" name="description" placeholder="Enter a brief bio" maxlength="250"></textarea>
+            </div>
+            <div class="d-flex">
+                    <!-- Date of Birth (DOB) -->
+                <div class="form-group d-flex align-items-center justify-content-center flex-column gap-2 btn btn-secondary bg-dark w-100">
+                  <label for="dob" class="btn btn-outline-info">Date of Birth (DOB)</label>
+                  <input type="date" class="form-control" name="dob" id="dob">
+              </div>
+
+              <!-- Contact Information -->
+              <div class="form-group d-flex align-items-center justify-content-center flex-column gap-2 btn btn-secondary bg-dark w-100">
+                  <label for="contactInfo" class="btn btn-outline-info">Contact Number</label>
+                  <input type="text" class="form-control" id="contactInfo" name="contactinfo" placeholder="Enter Contact Information">
+              </div>
+                  
+            </div>
+
+            <div class="form-group d-flex align-items-center justify-content-center flex-column gap-2 bg-dark w-100">
+                <label for="socialMedia" class="btn btn-outline-info">Follow/Connect (Social Media Links)</label>
+                <div class="input-group">
+                    <select class="custom-select btn btn-primary bg-dark" id="platformSelect" name="platformSelect">
+                        <option value="twitter">Twitter</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="facebook">Facebook</option>
+                    </select>
+                    <input type="text" class="form-control" id="socialMedia" name="socialmedia" placeholder="Enter Social Media Username">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-warning">Create Profile</button>
+        </form>
+    </div>
+
+
+
+
+
+
+  <script>
+  document.querySelector("#errorAlert button.close").addEventListener("click", function() {
+    document.querySelector("#errorAlert").classList.remove("show");
+  });
+  
+  // Close the success alert when the button is clicked
+  document.querySelector("#successAlert button.close").addEventListener("click", function() {
+    document.querySelector("#successAlert").classList.remove("show");
+  });
+  </script>
+  
+</body>
+</html>

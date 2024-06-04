@@ -1,0 +1,59 @@
+<div class="albumcontainer d-flex flex-column align-items-center">
+  <h1 class="text-white border-bottom mb-2 fs-1">Create Your Playlist</h1>
+  <div class="albumform rounded-2 fs-3 ms-5 btn btn-outline-info" style="width: 20rem;">
+      <form method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-2 w-100" id="createPlaylistForm">
+          <!-- Album details input fields -->
+          <label for="album_name" class="w-100">Playlist Name:</label>
+          <input type="text" id="playlist_name" name="playlist_name" placeholder="make new playlist" required class="bg-dark text-white border btn btn-outline-info bg-dark w-100">
+  
+          <input type="submit" value="Create Playlist" class="btn btn-outline-info bg-dark text-white  w-100">
+          </form>
+
+  </div>
+
+</div>
+<h6 class="border-bottom fs-3">Your Playlists</h6>
+{% if playlists %}
+
+{% for playlist in playlists %}
+
+ <div id="playlist-{{ playlist.id }}" style="list-style: decimal; color: white;" class="w-100">
+  <div class="d-flex align-items-center justify-content-center gap-2 rounded-3 p-3 ms-5" style="box-shadow: black 1rem 1rem 1rem; background-color: rgba(4, 208, 222, 0.625);">
+    <div class="d-flex align-items-center justify-content-center rounded-2" style="">
+        <h5 class="rounded-2 d-flex align-items-center justify-content-center p-2 fw-semibold mt-3" style="color: #ffffff; box-shadow: rgb(0, 0, 0) 4px 6px 1rem; background-color: #1d1c1da5;">{{ playlist.name }}</h5>
+        <select class="form-select w-25" id="playlist_{{ playlist.id }}" style="box-shadow: black 4px 6px 1rem; background-color: #1d1c1da5;">
+            <!-- <option value="" selected>Select a song</option> -->
+            {% if playlist.songs %}
+              {% for song in playlist.songs %}
+                  <option value="{{ song.song_file_path.split('/website')[1] }}" class="w-100">{{ song.name }}</option>
+                  <!-- <p class="btn btn-primary bg-dark"><a href="{{ url_for('auth.fullscreen_view', song_id=song.id) }}">Visit Song</a></p> -->
+              {% endfor %}
+
+            {% else %}
+                <option value="">No songs added to playlist</option>
+            {% endif %}
+        </select>
+      </div>
+        <button class="play-song rounded-2" style="background-color: #1d1c1d;"><i class="fa fa-light fa-play fa-bounce" style="color: #de1760; font-size: large; cursor: pointer;" ></i></button>
+        <!-- <form method="POST" action="{{ url_for('auth.delete_playlist', playlist_id=playlist.id) }}" class="delete-form">
+          <button type="submit" class="btn delete-playlist"><i class="fa-solid fa-trash" style="color: #1d1c1d; font-size: large;"></i></button>
+        </form> -->
+        <form method="POST" action="{{ url_for('auth.delete_playlist2', playlist_id=playlist.id) }}" class="delete-form">
+          <button type="button" class="btn delete-playlist" data-playlist-id="{{ playlist.id }}">
+              <i class="fa-solid fa-trash" style="color: #1d1c1d; font-size: large;"></i>
+          </button>
+      </form>
+      
+    
+    </div>
+  </div>
+    
+    
+{% endfor %}
+
+
+
+
+{% else %}
+<h2 class="btn btn-secondary fs-4">No playlists found</h2>
+{% endif %}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mushify-ADMIN-Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+         body{
+        background-color: rgb(32, 31, 31);
+        color:white;
+        
+      }
+      ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+<body class="w-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100" >
+        <div class="container-fluid bg-dark">
+          <a class="navbar-brand" href="#">Mushify</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 bg-dark">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/logout">LogOut</a></li>
+                
+                
+              <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li> -->
+              <!-- <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li> -->
+            </ul>
+            <!-- <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form> -->
+          </div>
+        </div>
+    </nav>
+
+    
+
+    <div class="main d-flex flex-column align-items-center justify-content-center mt-2 h-100 w-100">
+      <h1 class="btn btn-secondary"> Welcome {{username}}</h1>
+        <div class="infocard d-flex align-items-center justify-content-around mt-2 h-100 w-100 flex-wrap mt-5 mb-5">
+          <div class="card1 border border-secondary p-5">
+            <h4 class="btn btn-warning">No of Songs: {{songcount}}</h4>
+          </div>
+          <div class="card1 border border-secondary p-5">
+            <h4 class="btn btn-warning">No of Creators: {{creatorcount}}</h4>
+          </div>
+          <div class="card1 border border-secondary p-5">
+            <h4 class="btn btn-warning">No of Albums: {{albumcount}}</h4>
+          </div>
+          <div class="card1 border border-secondary p-5">
+            <h4 class="btn btn-warning">No of users: {{usercount}}</h4>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid mt-2 h-100 w-100 d-flex justify-content-start gap-2">
+        <input type="hidden" id="usercount" value="{{ usercount }}">
+        <input type="hidden" id="creatorcount" value="{{ creatorcount }}">
+        <input type="hidden" id="songcount" value="{{ songcount }}">
+        <input type="hidden" id="albumcount" value="{{ albumcount }}">
+        <input type="hidden" id="songlikes" value="{{ songlikes }}">
+        <input type="hidden" id="albumlikes" value="{{ albumlikes }}">
+        <input type="hidden" id="num_active_users" value="{{ num_active_users }}">
+        <input type="hidden" id="daily_activities" value="{{ daily_activities }}">
+
+
+        <canvas id="myChart" class="bg-dark d-flex h-50 w-50 "></canvas>
+        <canvas id="myChart2" class="bg-dark d-flex h-50 w-50 "></canvas>
+    </div>
+
+    
+    
+  {% if songs or creators %}
+  <div class="main container d-flex flex-column align-items-center justify-content-center mt-2">
+    <h1 class="border-bottom mt-5"> {% if songs %}songs {% else %} no songs{% endif %}</h1>
+      
+      <div class="song w-100 d-flex flex-column align-items-center justify-content-center h-100" style="overflow-x: auto;">
+        
+        
+        {% if songs %}
+        <div class="song-details d-flex align-items-start justify-content-start h-100 w-100">
+            {% for song in songs %}
+                <div class="songcard w-25 h-100 d-flex flex-column align-items-center justify-content-center flex-wrap mt-3">
+                  <div class="img h-100">
+                    {% if song.cover_image_path %}
+                    <img src="{{ song.cover_image_path.split('/website')[1] }}" alt="" style="width: 10rem; height: 10rem;" class="border border-white">
+                    {% else %}
+                    <i class="fa-solid fa-user fs-2" style="color: #ffffff;"></i>
+                    {% endif %}
+                    
+                  </div>
+                  
+                  <p>{{song.artist}}</p>
+                  <p>uploaded by: {{song.creator_name}}</p>
+                  <audio controls class="m-2">
+                    <source src="{{ song.song_file_path.split('/website')[1] }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                  </audio>
+                  <div class="actions d-flex align-items-center justify-content-center gap-4 p-2 w-100">
+                    <form action="/administrator/deletesong/{{song.id}}" method="POST">
+                      <button type="submit" class="btn btn-danger fs-6">Delete Song</button>
+                    </form>
+                    <form action="/administrator/flagsong/{{song.id}}" method="POST">
+                      {% if song.flag==None or song.flag < 3 %}
+                      <button type="submit" class="btn btn-primary fs-6">flag-song ({{song.flag}})</button>
+                      {% elif song.flag>=3 %}
+                      <button type="submit" class="btn btn-primary fs-6" disabled>flag-limit-maximum ({{song.flag}})</button>
+                      {% endif %}
+                    </form>
+                    <form action="/administrator/removeflagsong/{{song.id}}" method="POST">
+                      <button type="submit" class="btn btn-info">Remove Flag</button>
+                    </form>
+
+                  </div>
+                  
+                  
+                 
+
+                </div>
+
+               
+
+            {% endfor %}
+
+        </div>
+
+
+        </div>
+
+        {% else %}
+            <div class="nosongscreated">No songs created</div>
+
+        {% endif %}
+    </div>
+
+
+
+    <div class="main d-flex flex-column align-items-center justify-content-center mt-2 h-100">
+        <div class="w-100 d-flex flex-column align-items-center h-75">
+            <h1 class="border-bottom mt-5">{% if creators %}Creators {% else %}No Creators{% endif %}</h1>
+    
+            {% if creators %}
+            <div class="song-details d-flex align-items-start justify-content-start w-100 p-5 gap-4" style="overflow-x: auto;">
+                {% for creator in creators %}
+                    <div class="songcard w-25 h-100 bg-dark d-flex flex-column align-items-center justify-content-center mt-5 p-5 flex-wrap">
+                        <div class="img mt-3 h-100 p-5">
+                            {% if creator.profile_image_path %}
+                            <img src="{{ creator.profile_image_path.split('/website')[1] }}" alt="" style="width: 10rem; height: 10rem;" class="border border-secondary">
+                            {% else %}
+                            <div class="img border border-secondary p-5">
+                              <i class="fa-solid fa-user fs-2" style="color: #ffffff;"></i>
+
+                            </div>
+                            
+                            {% endif %}
+                        </div>
+    
+                        <p>{{ creator.user_name }}</p>
+                        <a href="{{ url_for('auth.profilepage', user_id=creator.id) }}"><button
+                                class="btn btn-primary fs-6">View Profile</button></a>
+
+
+                                <div class="actions d-flex gap-2 mt-2 p-2 w-100">
+                                  <form action="/administrator/deletecreator/{{ creator.id }}" method="POST">
+                                      <button type="submit" class="btn btn-danger">Delete Creator</button>
+                                  </form>
+                                  <form action="/administrator/flagcreator/{{ creator.id }}" method="POST">
+                                      {% if creator.flag == None or creator.flag < 3 %}
+                                      <button type="submit" class="btn btn-primary">flag-creator ({{ 0 if creator.flag == None else creator.flag }})</button>
+                                      {% elif creator.flag>=3 %}
+                                      <button type="submit" class="btn btn-primary" disabled>flag-limit-maximum ({{ creator.flag }})</button>
+                                      {% endif %}
+                                  </form>
+                                  <form action="/administrator/removeflagcreator/{{ creator.id }}" method="POST">
+                                      <button type="submit" class="btn btn-info">Remove Flag</button>
+                                  </form>
+                              </div>
+                    </div>
+                    
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="nosongscreated mt-2" style="width: 80vw; display: flex; align-items: center; justify-content: center;">
+                <h2 class="btn btn-secondary">No creators to display</h2>
+            </div>
+            {% endif %}
+        </div>
+     </div>
+    
+    {% else %}
+    <div class="div d-flex w-100 align-items-center justify-content-center bg-dark mt-3 p-2">
+      <h1>No data yet.</h1>
+    </div>
+    {% endif %}
+
+
+    <div class="maincont2 w-100 d-flex flex-column align-items-center justify-content-center p-3 mt-5" style="box-shadow: black 1rem -1rem 1rem;">
+      <h2 class="mt-5 border-bottom">Albums</h2>
+      
+      
+      <div class="w-100 mt-5 d-flex justify-content-start align-items-center p-2 gap-4 border border-secondary rounded-5" style="overflow-x: auto; box-shadow: black 1rem 1rem 1.5rem; background-color: rgb(34, 31, 35);">
+      
+      {% if albums %}
+      
+      {% for album in albums %}
+      
+      <div class="d-flex p-2 flex-column mt-5 justify-content-center align-items-center align-items-center gap-2 bg-dark rounded-5 p-5" style="box-shadow: black 0.5rem 0.2rem 1.5rem;">
+        <div class="img">
+          <img src="{{ album.cover_image.split('/website')[1] }}" alt="" style="width: 200px; height: 200px; border: 2px solid rgb(255, 255, 255);" class="border rounded-5" style="box-shadow: black 1rem 2rem 1rem;">
+        </div>
+      
+        <div class="d-flex gap-2 align-items-center justify-content-center w-100 flex-wrap" style="font-size: x-small; font-weight: bolder;">
+          
+          {{album.name}} |
+          Genre: {{ album.genre }}
+        </div>
+      
+      
+          <div class="d-flex flex-item align-items-center justify-content-center flex-wrap">
+            <div class="functions d-flex flex-item align-items-center justify-content-center gap-2">
+              <a href="/albums/{{ album.id }}/songs" class="btn btn-primary flex-item bg-dark text-primary">Explore</a>
+            <!-- <a href="/albums/{{ album.id }}/edit" class="btn btn-warning flex-item bg-dark text-warning">Edit</a> -->
+            <form action="/administrator/deletealbum/{{album.id}}" method="POST">
+              <!-- Add form inputs and a submit button here -->
+              <input type="submit" value="Delete" class="btn btn-danger flex-item ml-3 bg-dark text-danger">
+          </form>
+      
+        </div>
+      
+          </div>
+        
+      
+       
+      
+        
+        <!-- <a href="/albums/{{ album.id }}/delete" class="btn btn-danger" >Delete Album</a> -->
+      
+      </div>
+        
+        {% endfor %}
+      </div>      
+      
+      {% else %}
+      <div class="w-100" style=" display: flex; align-items: center; justify-content: center;"><h2 class="btn btn-secondary">No Albums To Display</h2></div>
+      {% endif %}
+      </div>
+
+
+
+    
+  
+
+<!-- 
+
+     
+
+
+    <div class="container-fluid mt-2 h-100 w-100 d-flex justify-content-start gap-2">
+      <input type="hidden" id="usercount" value="{{ usercount }}">
+      <input type="hidden" id="creatorcount" value="{{ creatorcount }}">
+      <input type="hidden" id="songcount" value="{{ songcount }}">
+      <input type="hidden" id="albumcount" value="{{ albumcount }}">
+      <input type="hidden" id="songlikes" value="{{ songlikes }}">
+      <input type="hidden" id="albumlikes" value="{{ albumlikes }}">
+      <input type="hidden" id="num_active_users" value="{{ num_active_users }}">
+
+
+      <canvas id="myChart" class="bg-dark d-flex h-50 w-50 "></canvas>
+      <canvas id="myChart2" class="bg-dark d-flex h-50 w-50 "></canvas>
+  </div> -->
+
+    <script>
+      const ctx = document.getElementById('myChart');
+      const usercount = document.getElementById('usercount').value;
+      const creatorcount = document.getElementById('creatorcount').value;
+      const songcount = document.getElementById('songcount').value;
+      const albumcount = document.getElementById('albumcount').value;
+      const songlikes = document.getElementById('songlikes').value;
+      const albumlikes = document.getElementById('albumlikes').value;
+      const ctx2 = document.getElementById('myChart2');
+      const num_active_users= document.getElementById('num_active_users').value;
+      const daily_activities= document.getElementById('daily_activities').value;
+    
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['normal users', 'creators', 'songs', 'albums', 'likes on songs', 'likes on albums'],
+          datasets: [{
+            label: '#',
+            data: [usercount, creatorcount, songcount, albumcount, songlikes, albumlikes],
+            borderWidth: 2,
+            
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+              
+            }
+          }
+        }
+      });
+      var labels= []
+      var data = [];
+      var dates = JSON.parse('{{ daily_activities_dates | tojson | safe }}');
+
+      for (var i = 0; i < dates.length; i++) {
+          labels.push( ` ${new Date(dates[i].date).getFullYear()}/${new Date(dates[i].date).getMonth() + 1}/${new Date(dates[i].date).getDate()} `);
+          data.push(dates[i].active_user_count);
+      }
+      new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '#',
+            data: data,
+            borderWidth: 2,
+            
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+              
+            },
+            x: {
+                beginAtZero: true,
+                
+            }
+          }
+        }
+      });
+    </script>
+
+
+</body>
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mushify-Paymentgateway</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: #424141;
+            
+        }
+    </style>
+</head>
+<body class="">
+    <div class="bg-dark d-flex flex-column align-items-center justify-content-center p-5">
+        <div class="d-flex align-items-center justify-content-around flex-wrap" style="border: 2px solid black; overflow-x: auto;">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                  <div class="carousel-item active w-100">
+                    <div class="d-flex flex-column justify-content-center align-items-center btn btn-outline-success p-5" style="border: 2px solid black; background-color: rgb(255, 255, 255); width: 100%;">
+                        <h5 class="" style="color: rgb(0, 0, 0);">Beginner Plan</h5>
+                        <ul class="d-flex flex-column justify-content-between w-100">
+                            <li class="btn btn-warning text-black flex-item mb-3">Become a creator.</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Create Read Update Delete Songs</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Create Albums</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Better Reach</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Creator Priviliges</li>
+                            <li class="btn btn-secondary text-black flex-item mb-3" id="amount" value="$25" onclick="changeamount(25)">$25/month</li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div class="carousel-item w-100">
+                    <div class="d-flex flex-column justify-content-center align-items-center btn btn-outline-success p-5" style="border: 2px solid black; background-color: white; width: 100%;">
+                        <h5 class="" style="color: rgb(0, 0, 0);">Advanced Plan</h5>
+                        <ul class="d-flex flex-column justify-content-between">
+                            <li class="btn btn-warning text-black flex-item mb-3">All Creator Features</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Premium Features Unlocked</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Maximum Reach</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Exclusive Music Studio</li>
+                            <li class="btn btn-warning text-black flex-item mb-3">Ai Music Generation</li>
+                            <li class="btn btn-secondary text-black flex-item mb-3" id="amount" value="$99" onclick="changeamount(99)">$99/month</li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev bg-dark" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next bg-dark" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+        </div>
+
+        <div class="d-flex justify-content-center flex-wrap p-5" >
+            
+            <div class="justify-content-center d-flex align-items-center w-50">
+                <img src="https://scontent-den4-1.xx.fbcdn.net/v/t1.15752-9/369480953_1030877534703831_5524590520588374447_n.jpg?stp=dst-jpg_p403x403&_nc_cat=108&ccb=1-7&_nc_sid=510075&_nc_ohc=4QWa85g5_vEAX-LUiqz&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent-den4-1.xx&oh=03_AdRbZxdKC4H4Y8AxMMUGEEFcdpox0n-bOp2yfrr5L1LMfQ&oe=657479AC" alt="" class="image-fluid card-img-top" >
+            </div>
+            
+            <form action='/user/dashboard/paymentdetails' method="POST" class="d-flex flex-column form-group mt-3 btn btn-warning">
+                
+                <input type="text" name="name" id="name" placeholder="enter your name" class="form-control flex-item mb-3" required>
+                <input type="email" name="email" id="email" placeholder="enter your email" class="form-control flex-item mb-3" required>
+                <input type="number" name="number" id="number" placeholder="enter your number" class="form-control flex-item mb-3" required>
+                <!-- <label>Select the currency:</label>
+                <div class="currency">
+                    <input type="radio" name="currency" value="USD" id="usdRadio" required> USD
+                    <input type="radio" name="currency" value="INR" id="inrRadio" required> INR
+                </div> -->
+
+                <label for="amount">Select the amount:</label>
+                <select name="amount" id="changeamount" class="form-control flex-item mb-3 fw-semibold" required>
+                    {% if not current_user.is_creator and not current_user.premium %}
+                    <option value="25">$25 (Advanced) {% if discount_amount %} <h6>({{discount_amount.discount}}% off)</h6> {% endif %} </option>
+                    {% endif %}
+                    {% if not current_user.premium %}
+                    <option value="99">$99 (premium) {% if discount_amount %} <h6>({{discount_amount.discount}}% off)</h6> {% endif %}</option>
+                    {% endif %}
+                </select>
+                <select name="months" class="form-control flex-item mb-3" required>
+                    <option value="1">1 month</option>
+                    <option value="3">3 month</option>
+                    <option value="6">6 month</option>
+                    <option value="12">12 month</option>
+                </select>
+                <input type="submit" class="block btn btn-primary flex-item mb-3" value="Submit">
+            </form>
+
+        </div>
+
+      
+
+    </div>
+    <script>
+        function changeamount(amount){
+            document.getElementById("changeamount").value = amount;
+        }
+    </script>
+</body>
+</html>

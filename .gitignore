@@ -1,0 +1,8 @@
+.vscode/
+instance/
+mushifyenv
+__pycache__/
+*.pyc
+migrations/
+revise.md
+

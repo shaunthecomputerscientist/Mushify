@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask musical questions</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <style>
+        ::-webkit-scrollbar{
+            width: 0;
+        }
+    </style>
+    </head>
+<body>
+    <div class="d-flex align-items-center justify-content-center flex-column" style="height: 100vh; background-color: rgb(16, 16, 16);">
+        <h1 class="text-white mt-5 border-bottom">Mushify LLM</h1>
+        <div class="chat-container align-items-center gap-2" style="display: flex; flex-direction: column; height:90vh; width: 100vw; background-color: rgb(16, 16, 16);">
+            <div id="chat-messages" class="chat-messages flex-column gap-3 text-white p-5 mb-2" style=" height: 80vh; width: 100vw; background-color: rgb(27, 29, 29); overflow-y: auto;">
+               <br>
+            </div>
+            
+        </div>
+        <div class="send d-flex gap-2" style="position: fixed; top: 90%;">
+            <input type="text" id="message-input" class="form-control bg-dark text-white" placeholder="Type a message" style="width: 50vw;">
+            <button id="send-button" class="btn btn-primary" style="bottom: 10rem;">Send</button>
+            <div class="" id="loader" style="display: none;">
+                <i class="fa fa-light fa-spinner fa-spin fa-lg" style="color: #09ecc6;"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const loader = document.getElementById("loader");
+
+    sendButton.addEventListener('click', sendMessage);
+
+    function sendMessage() {
+        const message = messageInput.value;
+        displayMessage('You', message);
+        messageInput.value = '';
+        loader.style.display = 'block';
+
+        // Function to retry the fetch in case of failure
+        function retryFetch(url, options, retries = 3, interval = 1000) {
+            return new Promise((resolve, reject) => {
+                const attemptFetch = () => {
+                    fetch(url, options)
+                        .then(response => resolve(response))
+                        .catch(error => {
+                            retries--;
+                            if (retries === 0) {
+                                reject(error);
+                            } else {
+                                setTimeout(attemptFetch, interval);
+                            }
+                        });
+                };
+
+                attemptFetch();
+            });
+        }
+
+        // Use JavaScript fetch to send the message to the backend with retry logic
+        retryFetch('/mushifyllm/chat', {
+            method: 'POST',
+            body: JSON.stringify({ message: message }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (typeof data.reply === 'object') {
+                displayMessage('Mushi bot', JSON.stringify(data.reply));
+            } else {
+                displayMessage('Mushi bot', data.reply);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            displayMessage('System', 'Failed to fetch. Please try again.');
+        })
+        .finally(() => {
+            loader.style.display = 'none';
+        });
+    }
+
+    function displayMessage(sender, text) {
+        const messageDiv = document.createElement('p');
+        messageDiv.classList.add('message');
+        messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        
+        // Add styles based on sender
+        if (sender === 'Mushi bot') {
+            messageDiv.style.backgroundColor = "#1b1c1c";
+            messageDiv.style.alignSelf = "flex-start";
+        } else {
+            messageDiv.style.backgroundColor = "#1b1c1c";
+            messageDiv.style.alignItems = "flex-end";
+        }
+
+        // Add common styles
+        messageDiv.style.boxShadow = "1rem 1rem 2rem black";
+        messageDiv.style.padding = "2rem";
+        messageDiv.style.border = "1px solid black";
+        messageDiv.style.borderRadius = "2rem";
+        messageDiv.style.flexDirection = (sender === 'Mushi bot') ? "row" : "row-reverse";
+
+        chatMessages.appendChild(messageDiv);
+    }
+
+
+    </script>
+</body>
+</html>
