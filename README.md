@@ -1,8 +1,8 @@
 # **Mushify**
 
 
-<img src="website/assets/userpage.png" alt="Home Page" width="500">
-<img src="website/assets/musicpage.png" alt="Home Page" width="200">
+<img src="website/assets/userpage.png" alt="Home Page" width="100">
+<img src="website/assets/musicpage.png" alt="Home Page" width="100">
 <img src="website/assets/upload_page1.png" alt="Home Page" width="250">
 <img src="website/assets/upload_page2.png" alt="Home Page" width="250">
 <img src="website/assets/upload_page3.png" alt="Home Page" width="250">
