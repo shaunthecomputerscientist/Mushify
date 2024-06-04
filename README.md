@@ -5,27 +5,27 @@
 
   <!-- First row: First three images -->
   <div style="flex: 1; margin-right: 10px;">
-    <img src="website/assets/userpage.png" alt="Home Page" width="500">
+    <img src="website/assets/userpage.png" alt="Home Page" width="700">
   </div>
   <div style="flex: 1; margin-right: 10px;">
-    <img src="website/assets/musicpage.png" alt="Home Page" width="300">
+    <img src="website/assets/musicpage.png" alt="Home Page" width="500">
   </div>
   <div style="flex: 1;">
-    <img src="website/assets/upload_page1.png" alt="Home Page" width="250">
+    <img src="website/assets/upload_page1.png" alt="Home Page" width="500">
   </div>
 
   <!-- Second row: Rest of the images -->
  <div style="flex: 1; margin-top: 20px;">
-    <img src="website/assets/upload_page2.png" alt="Home Page" width="250">
+    <img src="website/assets/upload_page2.png" alt="Home Page" width="700">
   </div>
   <div style="flex: 1; margin-top: 20px;">
-    <img src="website/assets/upload_page3.png" alt="Home Page" width="250">
+    <img src="website/assets/upload_page3.png" alt="Home Page" width="600">
   </div>
   <div style="flex: 1; margin-top: 20px;">
-    <img src="website/assets/followed_creator.png" alt="Home Page" width="450">
+    <img src="website/assets/followed_creator.png" alt="Home Page" width="800">
   </div>
   <div style="flex: 1; margin-top: 20px;">
-    <img src="website/assets/mushifybot.png" alt="Home Page" width="250">
+    <img src="website/assets/mushifybot.png" alt="Home Page" width="700">
   </div>
 
 </div>
