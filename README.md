@@ -1,7 +1,7 @@
 # **Mushify (Your Personal Music App)**
 
 
-<div style="display: flex; justify-content: center; flex-wrap: wrap; flex-direction:row">
+<div style="display: flex; justify-content: center; flex-wrap: nowrap; flex-direction:row">
 
   <!-- First row: First three images -->
   <div style="flex: 1; margin-right: 10px;">
