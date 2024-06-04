@@ -1,7 +1,7 @@
-# **Mushify**
+# **Mushify (Your Personal Music App)**
 
 
-<div style="display: flex; justify-content: center; flex-wrap: wrap;">
+<div style="display: flex; justify-content: center; flex-wrap: wrap; flex-direction:row">
 
   <!-- First row: First three images -->
   <div style="flex: 1; margin-right: 10px;">
@@ -15,7 +15,7 @@
   </div>
 
   <!-- Second row: Rest of the images -->
-  <div style="flex: 1; margin-top: 20px;">
+ <div style="flex: 1; margin-top: 20px;">
     <img src="website/assets/upload_page2.png" alt="Home Page" width="250">
   </div>
   <div style="flex: 1; margin-top: 20px;">
