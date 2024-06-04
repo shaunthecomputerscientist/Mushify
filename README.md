@@ -1,13 +1,34 @@
 # **Mushify**
 
 
-<img src="website/assets/userpage.png" alt="Home Page" width="100">
-<img src="website/assets/musicpage.png" alt="Home Page" width="100">
-<img src="website/assets/upload_page1.png" alt="Home Page" width="250">
-<img src="website/assets/upload_page2.png" alt="Home Page" width="250">
-<img src="website/assets/upload_page3.png" alt="Home Page" width="250">
-<img src="website/assets/followed_creator.png" alt="Home Page" width="450">
-<img src="website/assets/mushifybot.png" alt="Home Page" width="250">
+<div style="display: flex; justify-content: center; flex-wrap: wrap;">
+
+  <!-- First row: First three images -->
+  <div style="flex: 1; margin-right: 10px;">
+    <img src="website/assets/userpage.png" alt="Home Page" width="500">
+  </div>
+  <div style="flex: 1; margin-right: 10px;">
+    <img src="website/assets/musicpage.png" alt="Home Page" width="300">
+  </div>
+  <div style="flex: 1;">
+    <img src="website/assets/upload_page1.png" alt="Home Page" width="250">
+  </div>
+
+  <!-- Second row: Rest of the images -->
+  <div style="flex: 1; margin-top: 20px;">
+    <img src="website/assets/upload_page2.png" alt="Home Page" width="250">
+  </div>
+  <div style="flex: 1; margin-top: 20px;">
+    <img src="website/assets/upload_page3.png" alt="Home Page" width="250">
+  </div>
+  <div style="flex: 1; margin-top: 20px;">
+    <img src="website/assets/followed_creator.png" alt="Home Page" width="450">
+  </div>
+  <div style="flex: 1; margin-top: 20px;">
+    <img src="website/assets/mushifybot.png" alt="Home Page" width="250">
+  </div>
+
+</div>
 
 
 
