@@ -1,6 +1,8 @@
 # **Mushify (Your Personal Music App)**
 
-## **Project(as part of coursework) Video: https://drive.google.com/file/d/1A5CC_1kw02LShMY21bClOroGDI9SJ0Fl/view**
+## **Project Video (As Part of Coursework)**
+
+**Video Link:** [Project Video](https://drive.google.com/file/d/1A5CC_1kw02LShMY21bClOroGDI9SJ0Fl/view)
 
 <div style="display: flex; justify-content: center; flex-wrap: nowrap; flex-direction:row">
 
